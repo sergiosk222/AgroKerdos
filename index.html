@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#07140d" />
+  <meta name="description" content="AgroKerdos — easy PWA profit calculator for farmers and laiki sellers." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="AgroKerdos" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>AgroKerdos — ΑγροΚέρδος</title>
+</head>
+<body>
+  <a class="skip-link" href="#calculator" data-i18n="skip">Μετάβαση στον υπολογιστή</a>
+
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="AgroKerdos home">
+      <span class="brand-mark">AK</span>
+      <span><strong>AgroKerdos</strong><small>ΑγροΚέρδος</small></span>
+    </a>
+    <div class="header-controls">
+      <nav class="lang-switch" aria-label="Language selector">
+        <button class="pill active" data-lang="el" type="button">EL</button>
+        <button class="pill" data-lang="ru" type="button">RU</button>
+        <button class="pill" data-lang="en" type="button">EN</button>
+      </nav>
+      <button class="pill text-toggle" id="largeTextBtn" type="button" aria-pressed="false" data-i18n="largeText">Μεγάλα γράμματα</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero card">
+      <div class="hero-copy">
+        <p class="eyebrow" data-i18n="eyebrow">Για αγρότες & λαϊκές αγορές</p>
+        <h1 data-i18n="heroTitle">Βάλε κιλά, τιμή και έξοδα. Δες αν κέρδισες.</h1>
+        <p class="hero-text" data-i18n="heroText">Απλός υπολογιστής κέρδους με μεγάλα κουμπιά, καθαρές οδηγίες και αποθήκευση στο κινητό.</p>
+        <div class="hero-actions">
+          <a class="btn primary big" href="#calculator" data-set-mode="easy" data-i18n="startEasy">Ξεκίνα απλό υπολογισμό</a>
+          <a class="btn soft big" href="#calculator" data-set-mode="advanced" data-i18n="startAdvanced">Αναλυτικός υπολογισμός</a>
+        </div>
+        <div class="badges"><span data-i18n="noLogin">Χωρίς login</span><span data-i18n="offline">Δουλεύει offline</span><span data-i18n="free">Δωρεάν</span></div>
+      </div>
+      <aside class="hero-panel">
+        <span data-i18n="todayProfit">Σήμερα κέρδος</span>
+        <strong id="heroProfit">€0.00</strong>
+        <p id="heroStatus" class="human neutral">⚪ <span data-i18n="noCalc">Δεν υπάρχει υπολογισμός ακόμα</span></p>
+        <div class="mini-chart" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <p class="muted" data-i18n="heroNote">Σκοπός: να βλέπεις καθαρά αν η μέρα πήγε καλά ή όχι.</p>
+      </aside>
+    </section>
+
+    <section id="calculator" class="layout">
+      <section class="card form-card">
+        <div class="section-title"><p class="eyebrow" data-i18n="calcEyebrow">Υπολογιστής</p><h2 data-i18n="calcTitle">Υπολογισμός κέρδους</h2><p data-i18n="calcDesc">Συμπλήρωσε τα πεδία. Το αποτέλεσμα αλλάζει αμέσως.</p></div>
+        <div class="mode-tabs">
+          <button class="mode-tab active" data-mode="easy" type="button"><strong data-i18n="easyMode">Απλή λειτουργία</strong><small data-i18n="easyHelp">Για γρήγορο υπολογισμό</small></button>
+          <button class="mode-tab" data-mode="advanced" type="button"><strong data-i18n="advancedMode">Αναλυτικά</strong><small data-i18n="advancedHelp">Για περισσότερα έξοδα</small></button>
+        </div>
+
+        <form id="profitForm" novalidate>
+          <div class="form-grid">
+            <label><span data-i18n="product">Προϊόν</span><input id="product" type="text" placeholder="Ντομάτες" autocomplete="off"><small data-i18n="productHelp">Παράδειγμα: ντομάτες, ελιές, μέλι.</small></label>
+            <label><span data-i18n="totalKg">Συνολικά κιλά</span><input id="totalKg" type="number" min="0" step="0.01" inputmode="decimal" placeholder="100"></label>
+            <label><span data-i18n="soldKg">Πουλημένα κιλά</span><input id="soldKg" type="number" min="0" step="0.01" inputmode="decimal" placeholder="80"></label>
+            <label><span data-i18n="priceKg">Τιμή ανά κιλό</span><input id="priceKg" type="number" min="0" step="0.01" inputmode="decimal" placeholder="1.50"></label>
+            <label><span data-i18n="costKg">Κόστος ανά κιλό</span><input id="costKg" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.70"><small data-i18n="costHelp">Πόσο σου κοστίζει 1 κιλό.</small></label>
+            <label class="easy-cost"><span data-i18n="extraExpenses">Επιπλέον έξοδα</span><input id="extraExpenses" type="number" min="0" step="0.01" inputmode="decimal" placeholder="30"><small data-i18n="extraHelp">Βάλε όλα τα άλλα έξοδα μαζί.</small></label>
+            <label class="advanced-only"><span data-i18n="transport">Μεταφορικά</span><input id="transport" type="number" min="0" step="0.01" inputmode="decimal" placeholder="20"></label>
+            <label class="advanced-only"><span data-i18n="marketFee">Κόστος λαϊκής</span><input id="marketFee" type="number" min="0" step="0.01" inputmode="decimal" placeholder="10"></label>
+            <label class="advanced-only"><span data-i18n="packaging">Συσκευασία</span><input id="packaging" type="number" min="0" step="0.01" inputmode="decimal" placeholder="5"></label>
+            <label class="advanced-only"><span data-i18n="otherExpenses">Άλλα έξοδα</span><input id="otherExpenses" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0"></label>
+          </div>
+          <p class="tip" data-i18n="tip">Συμβουλή: αν δεν ξέρεις ακριβώς τα έξοδα, βάλε μια κοντινή εκτίμηση.</p>
+          <div class="button-row">
+            <button type="button" class="btn primary" id="saveBtn" data-i18n="save">Αποθήκευση υπολογισμού</button>
+            <button type="button" class="btn soft" id="demoBtn" data-i18n="demo">Παράδειγμα</button>
+            <button type="button" class="btn ghost" id="resetBtn" data-i18n="reset">Καθαρισμός</button>
+          </div>
+        </form>
+      </section>
+
+      <aside class="card results-card">
+        <div class="section-title"><p class="eyebrow" data-i18n="live">Ζωντανό αποτέλεσμα</p><h2 data-i18n="result">Αποτέλεσμα</h2></div>
+        <div id="humanResult" class="human neutral"><strong>⚪ <span data-i18n="fillFields">Συμπλήρωσε τα πεδία για να δεις αποτέλεσμα</span></strong></div>
+        <div class="metrics">
+          <article><span data-i18n="revenue">Έσοδα</span><strong id="revenue">€0.00</strong></article>
+          <article><span data-i18n="expenses">Έξοδα</span><strong id="expenses">€0.00</strong></article>
+          <article class="profit-card"><span data-i18n="netProfit">Καθαρό κέρδος</span><strong id="netProfit">€0.00</strong></article>
+          <article><span data-i18n="profitKg">Κέρδος ανά κιλό</span><strong id="profitKg">€0.00</strong></article>
+          <article class="advanced-result"><span data-i18n="breakEven">Τιμή ισορροπίας</span><strong id="breakEven">€0.00</strong></article>
+          <article class="advanced-result"><span data-i18n="unsoldKg">Απούλητα κιλά</span><strong id="unsoldKg">0 kg</strong></article>
+        </div>
+        <div class="bars">
+          <div><p><span data-i18n="revenue">Έσοδα</span><b id="revenueSmall">€0.00</b></p><div class="bar"><i id="revenueBar"></i></div></div>
+          <div><p><span data-i18n="expenses">Έξοδα</span><b id="expensesSmall">€0.00</b></p><div class="bar"><i id="expensesBar"></i></div></div>
+          <div><p><span data-i18n="leftProfit">Τι έμεινε ως κέρδος</span><b id="profitSmall">€0.00</b></p><div class="bar"><i id="profitBar"></i></div></div>
+        </div>
+        <div class="details advanced-result"><p><span data-i18n="grossProfit">Μικτό κέρδος</span><b id="grossProfit">€0.00</b></p><p><span data-i18n="margin">Ποσοστό που έμεινε ως κέρδος</span><b id="margin">0%</b></p><p><span data-i18n="unsoldValue">Αξία απούλητων</span><b id="unsoldValue">€0.00</b></p></div>
+      </aside>
+    </section>
+
+    <section class="card summary-card">
+      <div class="section-title"><p class="eyebrow" data-i18n="summary">Σύνοψη ημέρας</p><h2 data-i18n="marketDay">Η μέρα στη λαϊκή</h2></div>
+      <div id="dailySummary" class="human neutral"><strong>⚪ <span data-i18n="noSavedToday">Δεν έχεις αποθηκεύσει υπολογισμό για σήμερα.</span></strong></div>
+      <div class="metrics summary-metrics"><article><span data-i18n="todayRevenue">Σήμερα έσοδα</span><strong id="todayRevenue">€0.00</strong></article><article><span data-i18n="todayExpenses">Σήμερα έξοδα</span><strong id="todayExpenses">€0.00</strong></article><article class="profit-card"><span data-i18n="todayProfit">Σήμερα κέρδος</span><strong id="todayProfit">€0.00</strong></article><article><span data-i18n="products">Προϊόντα</span><strong id="todayCount">0</strong></article><article><span data-i18n="bestProduct">Καλύτερο προϊόν</span><strong id="bestProduct">—</strong></article><article><span data-i18n="weakProduct">Αδύναμο προϊόν</span><strong id="worstProduct">—</strong></article></div>
+    </section>
+
+    <section class="card history-card">
+      <div class="history-head"><div class="section-title"><p class="eyebrow" data-i18n="saved">Αποθηκευμένα</p><h2 data-i18n="history">Ιστορικό</h2><p data-i18n="historyHelp">Εδώ μένουν οι υπολογισμοί στο κινητό σου.</p></div><div class="button-row"><button type="button" class="btn soft" id="exportBtn" data-i18n="csv">Κατέβασε CSV</button><button type="button" class="btn danger" id="clearHistoryBtn" data-i18n="clearHistory">Καθάρισε ιστορικό</button></div></div>
+      <div id="historyList" class="history-list"></div><p id="emptyHistory" class="empty" data-i18n="emptyHistory">Δεν υπάρχει ακόμα ιστορικό.</p>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
